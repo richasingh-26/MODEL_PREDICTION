@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeuralBlueprint | EDA &amp; Quality Diagnostics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary-fixed-dim": "#ffb95f",
+                "on-secondary-fixed": "#111c2d",
+                "on-primary-fixed-variant": "#00513a",
+                "secondary": "#bcc7de",
+                "on-primary-fixed": "#002116",
+                "surface-container-high": "#222a3d",
+                "surface-container-low": "#131b2e",
+                "secondary-fixed-dim": "#bcc7de",
+                "outline": "#879392",
+                "background": "#0b1326",
+                "on-secondary-container": "#aeb9d0",
+                "surface-container-lowest": "#060e20",
+                "on-tertiary-container": "#fff9f5",
+                "surface-container-highest": "#2d3449",
+                "surface": "#0b1326",
+                "on-tertiary": "#472a00",
+                "on-primary": "#003827",
+                "secondary-fixed": "#d8e3fb",
+                "tertiary": "#ffb95f",
+                "tertiary-fixed": "#ffddb8",
+                "primary-fixed": "#67fcc6",
+                "inverse-primary": "#006c4f",
+                "on-error-container": "#ffdad6",
+                "on-error": "#690005",
+                "primary-container": "#008360",
+                "primary-fixed-dim": "#44dfab",
+                "surface-container": "#171f33",
+                "surface-dim": "#0b1326",
+                "secondary-container": "#3e495d",
+                "inverse-on-surface": "#283044",
+                "error": "#ffb4ab",
+                "error-container": "#93000a",
+                "tertiary-container": "#a16600",
+                "surface-tint": "#44dfab",
+                "on-secondary": "#263143",
+                "on-primary-container": "#e8fff1",
+                "outline-variant": "#3e4949",
+                "primary": "#44dfab",
+                "on-surface-variant": "#bdc9c8",
+                "on-secondary-fixed-variant": "#3c475a",
+                "surface-variant": "#2d3449",
+                "surface-bright": "#31394d",
+                "on-tertiary-fixed": "#2a1700",
+                "on-surface": "#dae2fd",
+                "on-background": "#dae2fd",
+                "on-tertiary-fixed-variant": "#653e00",
+                "inverse-surface": "#dae2fd"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Space Grotesk"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-slate-950/80 backdrop-blur-xl font-['Space_Grotesk'] tracking-tight">
+<div class="flex items-center gap-8">
+<div class="text-2xl font-bold text-teal-400">NeuralBlueprint</div>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-400 hover:text-teal-300 transition-colors" href="#">Project Alpha</a>
+<a class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1" href="#">Project Beta</a>
+<a class="text-slate-400 hover:text-teal-300 transition-colors" href="#">Global View</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-teal-300 transition-colors scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-400 hover:text-teal-300 transition-colors scale-95 active:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/30">
+<img alt="User profile" data-alt="close-up portrait of a professional male developer with soft studio lighting and a clean neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu9VKYZr9zE176BofyHlvPk2pB3gO5HvcA_E21DH4l0bCLTm8oxs7potsJkYEygbQU_pRtCcXm1DS0ZrLTsgfxQjdIDaBkGhnSNvU4B3FTt4CQ_ljHg7D3P1TuneqfAAAR0rmc-epdpOONVLUpacxX6Bju2c_QvTfJ25zjsT3XssPH3xW98glGtcjtsByOG7CUr5GQxAIm6IKeay4yCbm65Ye7-ds8mBad0-xmBtGP4mLSWl9Fkvk6uJODQdxBlzyUcTK8xgC1cEaX"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-slate-900 flex flex-col py-4 font-['Inter'] text-sm font-medium">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-500/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-teal-400" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<div class="text-teal-400 font-bold">AutoML Suite</div>
+<div class="text-[10px] text-slate-500 uppercase tracking-widest">V2.4 Stable</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span>Upload</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 bg-teal-500/10 text-teal-400 border-r-4 border-teal-500 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analyze</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+<span>Improve</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+<span>Train</span>
+</a>
+<a class="flex items-center gap-3 px-6 py-3 text-slate-400 hover:bg-slate-800 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Decide</span>
+</a>
+</nav>
+<div class="px-6 mt-auto space-y-1">
+<button class="w-full bg-primary-container text-on-primary-container py-2.5 rounded-lg font-bold mb-6 flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Experiment
+            </button>
+<a class="flex items-center gap-3 py-2 text-slate-400 hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="help">help</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-slate-400 hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span>
+<span>Documentation</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 p-8 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Header & Toggle Section -->
+<section class="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-surface-container-highest pb-8">
+<div class="space-y-2">
+<h1 class="text-4xl font-bold tracking-tight text-on-surface">EDA &amp; Quality Diagnostics</h1>
+<p class="text-on-surface-variant max-w-2xl">Uncovering structural anomalies and data drift within the Project Beta training set. Analyzing 1.2M rows across 42 dimensions.</p>
+</div>
+<div class="flex items-center bg-surface-container-low p-1 rounded-full border border-outline-variant/20">
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-secondary-container text-on-secondary-container">Non-Technical</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium text-on-surface-variant hover:text-on-surface">Technical</button>
+</div>
+</section>
+<!-- Insight Callout: The Fix My Dataset Workflow -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-primary-container p-8 rounded-xl relative overflow-hidden flex flex-col justify-between">
+<div class="relative z-10 space-y-4">
+<h2 class="text-2xl font-bold text-on-primary-container">Fix My Dataset</h2>
+<p class="text-on-primary-container/80 text-lg">Our diagnostic engine detected critical class imbalance and 12.4% missingness in 'feature_x'. We recommend applying automated normalization and synthetic minority oversampling (SMOTE).</p>
+<div class="flex flex-wrap gap-3 py-4">
+<span class="bg-primary/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold text-on-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Missing Values Handled
+                            </span>
+<span class="bg-primary/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold text-on-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Outlier Removal (Z-Score &gt; 3)
+                            </span>
+<span class="bg-primary/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold text-on-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span> Log Transformation
+                            </span>
+</div>
+</div>
+<button class="relative z-10 w-fit mt-6 bg-primary-fixed text-on-primary-fixed px-8 py-4 rounded-xl font-extrabold flex items-center gap-3 hover:scale-[1.02] transition-transform active:scale-95">
+                        Apply Recommended Fixes &amp; Retrain
+                        <span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<!-- Background Decoration -->
+<div class="absolute -right-12 -bottom-12 opacity-10">
+<span class="material-symbols-outlined text-[240px]" data-icon="auto_fix_high">auto_fix_high</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-6 rounded-xl flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-bold text-on-surface">Data Health Score</h3>
+<span class="text-tertiary font-bold">Needs Improvement</span>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<svg class="w-32 h-32 transform -rotate-90">
+<circle class="text-surface-container-highest" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary-fixed-dim" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="140" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="text-3xl font-bold">62%</span>
+</div>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Consistency</span>
+<span class="text-on-surface font-bold">88%</span>
+</div>
+<div class="h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[88%]"></div>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">Completeness</span>
+<span class="text-on-surface font-bold">42%</span>
+</div>
+<div class="h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[42%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Before vs After Comparison Grid -->
+<section class="space-y-6">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-bold text-on-surface">Transformation Analysis</h2>
+<div class="h-[1px] flex-1 bg-surface-container-highest"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Before: Imbalanced -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group border border-transparent hover:border-outline-variant/20 transition-all">
+<div class="p-6 border-b border-surface-container-highest flex justify-between items-center">
+<div>
+<h3 class="font-bold text-on-surface">Original Distribution</h3>
+<p class="text-xs text-on-surface-variant">Raw survey response data</p>
+</div>
+<span class="text-[10px] px-2 py-1 rounded bg-error-container text-on-error-container font-bold uppercase tracking-tighter">Imbalanced</span>
+</div>
+<div class="p-8 aspect-[16/9] flex items-end gap-2">
+<div class="flex-1 bg-surface-container-highest rounded-t-lg h-[95%] relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-on-surface-variant">Class A (85%)</div>
+</div>
+<div class="flex-1 bg-surface-container-highest/50 rounded-t-lg h-[15%] relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-on-surface-variant">Class B (15%)</div>
+</div>
+<div class="flex-1 bg-surface-container-highest/20 rounded-t-lg h-[5%] relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-on-surface-variant">N/A</div>
+</div>
+</div>
+<div class="p-6 bg-surface-container-high/50">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-tertiary" data-icon="lightbulb">lightbulb</span>
+<p class="text-sm text-on-surface-variant italic">"Why this matters: Severe imbalance causes models to ignore minority cases, leading to high accuracy but poor predictive value for critical events."</p>
+</div>
+</div>
+</div>
+<!-- After: Balanced -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden group border border-transparent hover:border-primary/20 transition-all">
+<div class="p-6 border-b border-surface-container-highest flex justify-between items-center">
+<div>
+<h3 class="font-bold text-on-surface">Balanced Pipeline</h3>
+<p class="text-xs text-on-surface-variant">SMOTE + Synthetic Augmentation</p>
+</div>
+<span class="text-[10px] px-2 py-1 rounded bg-primary-container text-on-primary-container font-bold uppercase tracking-tighter">Optimal</span>
+</div>
+<div class="p-8 aspect-[16/9] flex items-end gap-2">
+<div class="flex-1 bg-primary/60 rounded-t-lg h-[48%] relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-primary">Target (50%)</div>
+</div>
+<div class="flex-1 bg-primary/60 rounded-t-lg h-[48%] relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-primary">Other (50%)</div>
+</div>
+<div class="flex-1 bg-surface-container-highest/20 rounded-t-lg h-0 relative"></div>
+</div>
+<div class="p-6 bg-surface-container-high/50">
+<div class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+<p class="text-sm text-on-surface-variant italic">"The diagnostic engine has normalized the variance, ensuring the neural network penalizes errors equally across all decision boundaries."</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Multidimensional Analysis Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<!-- Correlation Matrix (Large) -->
+<div class="md:col-span-2 md:row-span-2 bg-surface-container-low rounded-xl p-6 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-on-surface">Correlation Heatmap</h3>
+<button class="text-primary text-xs flex items-center gap-1 hover:underline">
+                            View Full Matrix <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+<div class="flex-1 bg-surface-container-lowest rounded-lg grid grid-cols-6 grid-rows-6 p-2 gap-1">
+<!-- Heatmap Mockup -->
+<div class="bg-primary-container/90 rounded-sm"></div><div class="bg-primary-container/40 rounded-sm"></div><div class="bg-primary-container/20 rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div>
+<div class="bg-primary-container/40 rounded-sm"></div><div class="bg-primary-container/90 rounded-sm"></div><div class="bg-primary-container/60 rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div>
+<div class="bg-primary-container/20 rounded-sm"></div><div class="bg-primary-container/60 rounded-sm"></div><div class="bg-primary-container/90 rounded-sm"></div><div class="bg-primary-container/30 rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div>
+<div class="bg-surface-container-highest rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div><div class="bg-primary-container/30 rounded-sm"></div><div class="bg-primary-container/90 rounded-sm"></div><div class="bg-primary-container/50 rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div>
+<div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div><div class="bg-primary-container/50 rounded-sm"></div><div class="bg-primary-container/90 rounded-sm"></div><div class="bg-primary-container/30 rounded-sm"></div>
+<div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-surface-container-highest rounded-sm"></div><div class="bg-primary-container/10 rounded-sm"></div><div class="bg-primary-container/30 rounded-sm"></div><div class="bg-primary-container/90 rounded-sm"></div>
+</div>
+<div class="mt-4 p-4 rounded-lg bg-surface-container-high/40 border-l-4 border-primary">
+<p class="text-xs leading-relaxed text-on-surface-variant"><strong>Human Insight:</strong> Feature 04 and Feature 12 show extreme collinearity (&gt;0.94). We recommend dropping one to prevent overfitting and improve model interpretability.</p>
+</div>
+</div>
+<!-- Missing Values Breakdown -->
+<div class="md:col-span-2 bg-surface-container-low rounded-xl p-6 flex flex-col justify-between">
+<div>
+<h3 class="font-bold text-on-surface mb-1">Null Density Map</h3>
+<p class="text-xs text-on-surface-variant">Spatial view of missing records across time.</p>
+</div>
+<div class="h-24 bg-surface-container-lowest rounded-lg flex items-center justify-center border border-dashed border-outline-variant/30">
+<div class="w-[90%] h-4 bg-surface-container-highest rounded-full overflow-hidden flex">
+<div class="h-full bg-primary/40 w-1/4"></div>
+<div class="h-full bg-tertiary w-1/12 border-x border-background"></div>
+<div class="h-full bg-primary/40 w-1/2"></div>
+<div class="h-full bg-tertiary w-1/12 border-x border-background"></div>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant italic">"Why this matters: Clusters of missing values suggest systematic sensor failure between Oct 12-14."</p>
+</div>
+<!-- Feature Importance Preview -->
+<div class="md:col-span-1 bg-surface-container-low rounded-xl p-6 flex flex-col justify-between">
+<h3 class="font-bold text-on-surface text-sm">Feature Drift</h3>
+<div class="flex items-center justify-between group cursor-pointer">
+<span class="text-xs font-mono text-on-surface-variant">User_ID</span>
+<span class="text-xs text-on-error font-bold">-14.2%</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<span class="text-xs font-mono text-on-surface-variant">Session_Dur</span>
+<span class="text-xs text-primary font-bold">+2.1%</span>
+</div>
+<div class="flex items-center justify-between group cursor-pointer">
+<span class="text-xs font-mono text-on-surface-variant">Region_Code</span>
+<span class="text-xs text-on-error font-bold">-32.9%</span>
+</div>
+</div>
+<!-- Snapshot Info -->
+<div class="md:col-span-1 bg-surface-container-low rounded-xl p-6 flex flex-col justify-between border-t-4 border-tertiary">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-xs font-bold text-tertiary uppercase tracking-tighter">Anomaly Alert</span>
+</div>
+<div class="text-3xl font-bold text-on-surface">1,402</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">Extreme outliers detected in 'Transaction_Value' field. Automatic clipping applied.</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-slate-950 border-t border-surface-container-highest px-6 py-3 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="text-[10px]">Upload</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-teal-400">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-[10px]">Analyze</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span>
+<span class="text-[10px]">Improve</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+<span class="text-[10px]">Train</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span class="text-[10px]">Decide</span>
+</button>
+</nav>
+</body></html>

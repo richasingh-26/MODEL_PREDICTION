@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeuralBlueprint | AutoML Insights &amp; Decision</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-secondary-fixed": "#111c2d",
+                        "on-primary-fixed-variant": "#00513a",
+                        "secondary": "#bcc7de",
+                        "on-primary-fixed": "#002116",
+                        "surface-container-high": "#222a3d",
+                        "surface-container-low": "#131b2e",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "outline": "#879392",
+                        "background": "#0b1326",
+                        "on-secondary-container": "#aeb9d0",
+                        "surface-container-lowest": "#060e20",
+                        "on-tertiary-container": "#fff9f5",
+                        "surface-container-highest": "#2d3449",
+                        "surface": "#0b1326",
+                        "on-tertiary": "#472a00",
+                        "on-primary": "#003827",
+                        "secondary-fixed": "#d8e3fb",
+                        "tertiary": "#ffb95f",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary-fixed": "#67fcc6",
+                        "inverse-primary": "#006c4f",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "primary-container": "#008360",
+                        "primary-fixed-dim": "#44dfab",
+                        "surface-container": "#171f33",
+                        "surface-dim": "#0b1326",
+                        "secondary-container": "#3e495d",
+                        "inverse-on-surface": "#283044",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#a16600",
+                        "surface-tint": "#44dfab",
+                        "on-secondary": "#263143",
+                        "on-primary-container": "#e8fff1",
+                        "outline-variant": "#3e4949",
+                        "primary": "#44dfab",
+                        "on-surface-variant": "#bdc9c8",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "surface-variant": "#2d3449",
+                        "surface-bright": "#31394d",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-surface": "#dae2fd",
+                        "on-background": "#dae2fd",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "inverse-surface": "#dae2fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #0b1326; color: #dae2fd; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0b1326; }
+        ::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar (Fixed) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-slate-950/80 backdrop-blur-xl font-['Space_Grotesk'] tracking-tight">
+<div class="flex items-center gap-8">
+<div class="text-2xl font-bold text-teal-400">NeuralBlueprint</div>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="text-slate-400 hover:text-teal-300 transition-colors" href="#">Project Alpha</a>
+<a class="text-slate-400 hover:text-teal-300 transition-colors" href="#">Project Beta</a>
+<a class="text-teal-400 font-bold border-b-2 border-teal-400 pb-1" href="#">Global View</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-teal-300 transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-400 hover:text-teal-300 transition-colors scale-95 active:opacity-80">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-outline-variant/30">
+<img alt="User profile" data-alt="Close-up portrait of a professional male tech lead with short hair and glasses, neutral expression, clean studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMXSfBp6TTi5LAs53lhRpiNGUW_NZq9HQur1-GB9rcH17PeA8v7BbAPSo4_36mH6rjuKzHaHJeGagcSTBOE955lDcyPK-eBBu2OMplMje569XNFgjM5NB9iwfSfi68SXaK3WVSGgLqV-DucMoMGbPAkFb4icSMKkMVidvQ2NoJmCx1WKDTfRKeGuE5uH3TnBuxkziK5dbXbDRCS0LXxP2x4KCFBsljJz2reOZ0CHymrIGVBusNe25Zf6ffu6DiGzmJh_BmGm6eMzpr"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] flex flex-col py-4 bg-slate-900 w-64 z-40 border-r border-outline-variant/10">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-teal-500/20 flex items-center justify-center text-teal-400">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+<div>
+<div class="text-teal-400 font-bold font-headline">AutoML Suite</div>
+<div class="text-xs text-slate-400 font-medium">V2.4 Stable</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span> Upload
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span> Analyze
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="auto_fix_high">auto_fix_high</span> Improve
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span> Train
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-teal-500/10 text-teal-400 border-r-4 border-teal-500 rounded-r-none rounded-xl transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check" style="font-variation-settings: 'FILL' 1;">fact_check</span> Decide
+            </a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> New Experiment
+            </button>
+<div class="pt-4 border-t border-outline-variant/10 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-100 text-xs transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span> Help Center
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-slate-100 text-xs transition-colors" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="menu_book">menu_book</span> Documentation
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-16 min-h-screen">
+<div class="max-w-[1400px] mx-auto p-8">
+<!-- Header & Step Progress -->
+<div class="mb-12">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-4xl font-headline font-bold text-on-surface tracking-tight mb-2">Decision Engine</h1>
+<p class="text-on-surface-variant max-w-2xl font-body">Validate model integrity, run counterfactual simulations, and deploy your optimized intelligence pipeline to production.</p>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full border border-outline-variant/10">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-xs font-bold font-headline text-primary tracking-widest uppercase">Live Deployment Readiness</span>
+</div>
+</div>
+<!-- Horizontal Step Progress -->
+<div class="relative flex items-center justify-between">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-surface-container-highest -z-0"></div>
+<div class="absolute top-1/2 left-0 h-[2px] bg-primary w-full -z-0"></div>
+<div class="relative z-10 flex flex-col items-center gap-2 group">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-xl" data-icon="check">check</span>
+</div>
+<span class="text-xs font-headline font-bold text-primary">Upload</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-xl" data-icon="check">check</span>
+</div>
+<span class="text-xs font-headline font-bold text-primary">Analyze</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-xl" data-icon="check">check</span>
+</div>
+<span class="text-xs font-headline font-bold text-primary">Improve</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-xl" data-icon="check">check</span>
+</div>
+<span class="text-xs font-headline font-bold text-primary">Train</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center border-4 border-primary ring-8 ring-primary/10">
+<span class="material-symbols-outlined text-2xl" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<span class="text-xs font-headline font-bold text-primary">Decide</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Section 1: Leaderboard & Model Selection -->
+<section class="col-span-12 lg:col-span-8 space-y-6">
+<div class="bg-surface-container-high rounded-xl overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="font-headline font-bold text-lg">Model Leaderboard</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Top Performing</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-highest/50 text-[10px] uppercase font-bold text-on-surface-variant tracking-widest">
+<tr>
+<th class="px-6 py-4">Model Candidate</th>
+<th class="px-6 py-4">Accuracy</th>
+<th class="px-6 py-4">F1 Score</th>
+<th class="px-6 py-4">Latency</th>
+<th class="px-6 py-4 text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="bg-primary/5 border-l-4 border-primary">
+<td class="px-6 py-4 font-medium text-on-surface">GradientBoost_V4_final</td>
+<td class="px-6 py-4 text-primary font-headline font-bold">98.2%</td>
+<td class="px-6 py-4 text-on-surface-variant">0.976</td>
+<td class="px-6 py-4 text-on-surface-variant">12ms</td>
+<td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-primary-container/20 text-primary text-[10px] font-bold rounded">CHAMPION</span></td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors">
+<td class="px-6 py-4 font-medium text-on-surface">RandomForest_Deep_Ens</td>
+<td class="px-6 py-4 text-on-surface-variant font-headline">96.4%</td>
+<td class="px-6 py-4 text-on-surface-variant">0.958</td>
+<td class="px-6 py-4 text-on-surface-variant">45ms</td>
+<td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-surface-container-lowest text-on-surface-variant text-[10px] font-bold rounded">CONTENDER</span></td>
+</tr>
+<tr class="hover:bg-surface-container-highest/30 transition-colors">
+<td class="px-6 py-4 font-medium text-on-surface">XGBoost_Optimized_8</td>
+<td class="px-6 py-4 text-on-surface-variant font-headline">95.1%</td>
+<td class="px-6 py-4 text-on-surface-variant">0.942</td>
+<td class="px-6 py-4 text-on-surface-variant">8ms</td>
+<td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-surface-container-lowest text-on-surface-variant text-[10px] font-bold rounded">STABLE</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- What-If Simulator -->
+<div class="bg-surface-container-high rounded-xl p-8">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="tune">tune</span>
+<h3 class="font-headline font-bold text-xl">What-If Simulator</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-8">
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-on-surface">User Tenure (Months)</label>
+<span class="text-primary font-headline font-bold">24 months</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest rounded-full relative">
+<div class="absolute top-0 left-0 h-full w-[40%] bg-primary rounded-full"></div>
+<div class="absolute -top-1.5 left-[40%] w-4 h-4 bg-primary border-4 border-background rounded-full cursor-pointer shadow-lg shadow-primary/20"></div>
+</div>
+<div class="flex justify-between text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
+<span>0m</span><span>60m</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-on-surface">Age Cohort</label>
+<span class="text-primary font-headline font-bold">35 - 44</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest rounded-full relative">
+<div class="absolute top-0 left-0 h-full w-[65%] bg-primary rounded-full"></div>
+<div class="absolute -top-1.5 left-[65%] w-4 h-4 bg-primary border-4 border-background rounded-full cursor-pointer shadow-lg shadow-primary/20"></div>
+</div>
+<div class="flex justify-between text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">
+<span>18</span><span>85+</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<label class="text-sm font-medium text-on-surface">Interaction Frequency</label>
+<span class="text-primary font-headline font-bold">High (0.82)</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest rounded-full relative">
+<div class="absolute top-0 left-0 h-full w-[82%] bg-primary rounded-full"></div>
+<div class="absolute -top-1.5 left-[82%] w-4 h-4 bg-primary border-4 border-background rounded-full cursor-pointer shadow-lg shadow-primary/20"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-highest/40 rounded-2xl p-8 flex flex-col items-center justify-center text-center border border-primary/10 backdrop-blur-sm relative overflow-hidden group">
+<div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl transition-all group-hover:bg-primary/20"></div>
+<div class="relative z-10">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4 block">Simulation Result</span>
+<div class="text-6xl font-headline font-extrabold text-primary mb-2">0.92</div>
+<div class="text-sm font-medium text-on-surface">Churn Likelihood</div>
+<div class="mt-6 flex items-center gap-2 text-xs text-on-surface-variant px-3 py-1 bg-surface-container-lowest rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="bolt">bolt</span>
+                                        Recalculated in real-time
+                                    </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Integrity & Deployment -->
+<aside class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Reliability Card -->
+<div class="bg-surface-container-high rounded-xl p-6 border border-outline-variant/10">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline font-bold">Model Integrity</h3>
+<span class="material-symbols-outlined text-tertiary" data-icon="verified_user">verified_user</span>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-bold uppercase mb-2">
+<span class="text-on-surface-variant">Overfitting Gauge</span>
+<span class="text-tertiary">14% Gap</span>
+</div>
+<div class="h-4 bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 82%;"></div>
+<div class="h-full bg-tertiary/40" style="width: 14%;"></div>
+</div>
+<div class="flex justify-between text-[10px] mt-2 text-on-surface-variant">
+<span>Train: 96%</span>
+<span>Test: 82%</span>
+</div>
+</div>
+<div class="p-4 bg-tertiary-container/10 rounded-xl border border-tertiary-container/30">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-tertiary shrink-0" data-icon="warning">warning</span>
+<p class="text-xs text-on-surface leading-relaxed">
+<strong class="text-tertiary">High Generalization Risk:</strong> Model may not generalize well to unseen data. The training/test variance exceeds the recommended 5% threshold.
+                                    </p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl">
+<div>
+<div class="text-[10px] font-bold uppercase text-on-surface-variant">Stability Score</div>
+<div class="text-xl font-headline font-bold text-on-surface">Robust</div>
+</div>
+<div class="w-12 h-12 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Final Decision Card -->
+<div class="bg-primary-container rounded-xl p-1 shadow-2xl shadow-primary/20">
+<div class="bg-surface-container-high rounded-[0.5rem] p-6">
+<h3 class="font-headline font-bold text-xl mb-2">Final Deployment</h3>
+<p class="text-sm text-on-surface-variant mb-6">GradientBoost_V4 is ready for production. Select your integration method.</p>
+<div class="space-y-3 mb-8">
+<button class="w-full group bg-primary text-on-primary py-4 rounded-xl font-bold flex items-center justify-between px-6 transition-all hover:scale-[1.02] active:scale-[0.98]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="rocket_launch" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span>Deploy to Cloud</span>
+</div>
+<span class="material-symbols-outlined transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 p-4 bg-surface-container-lowest hover:bg-surface-container-highest border border-outline-variant/10 rounded-xl transition-all">
+<span class="material-symbols-outlined text-primary" data-icon="download">download</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Pickle</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 bg-surface-container-lowest hover:bg-surface-container-highest border border-outline-variant/10 rounded-xl transition-all">
+<span class="material-symbols-outlined text-primary" data-icon="api">api</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Endpoint</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-4 font-mono text-xs text-primary/80 overflow-hidden relative">
+<div class="absolute top-2 right-2 flex gap-1">
+<button class="p-1.5 hover:bg-surface-container-highest rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<div class="opacity-50"># usage_example.py</div>
+<div class="mt-1">import neural_bp as nbp</div>
+<div>model = nbp.load('v4_champion')</div>
+<div>prediction = model.predict(input_data)</div>
+</div>
+</div>
+</div>
+<!-- Insight Callout -->
+<div class="bg-secondary-container/20 rounded-xl p-6 border-l-4 border-secondary relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-5">
+<span class="material-symbols-outlined text-9xl" data-icon="lightbulb">lightbulb</span>
+</div>
+<h4 class="font-headline font-bold text-secondary mb-2">Curator's Insight</h4>
+<p class="text-sm text-on-surface italic leading-relaxed">
+                            "The SHAP values suggest that 'Interaction Frequency' is your most volatile feature. Consider normalizing this vector before scaling to production for better stability."
+                        </p>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Contextual FAB -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center transition-all hover:scale-110 active:scale-90 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</button>
+</body></html>

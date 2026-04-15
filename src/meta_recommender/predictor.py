@@ -13,6 +13,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from sklearn.base import clone
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn.ensemble import RandomForestClassifier, StackingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, ndcg_score
@@ -229,44 +230,46 @@ class MetaModelPredictor:
     @staticmethod
     def _make_baseline_candidates(min_class_count: int = 5) -> dict[str, Any]:
         stacking_cv = max(2, min(3, min_class_count))
+        xgb = XGBClassifier(
+            n_estimators=220,
+            max_depth=5,
+            learning_rate=0.05,
+            subsample=0.9,
+            colsample_bytree=0.85,
+            random_state=RANDOM_STATE,
+            eval_metric="mlogloss",
+        )
+        stacking = StackingClassifier(
+            estimators=[
+                (
+                    "rf",
+                    RandomForestClassifier(
+                        n_estimators=250,
+                        random_state=RANDOM_STATE,
+                        class_weight="balanced",
+                    ),
+                ),
+                (
+                    "xgb",
+                    XGBClassifier(
+                        n_estimators=160,
+                        max_depth=4,
+                        learning_rate=0.06,
+                        subsample=0.9,
+                        colsample_bytree=0.85,
+                        random_state=RANDOM_STATE,
+                        eval_metric="mlogloss",
+                    ),
+                ),
+            ],
+            final_estimator=LogisticRegression(max_iter=1200),
+            stack_method="predict_proba",
+            passthrough=False,
+            cv=stacking_cv,
+        )
         return {
-            "xgboost_classifier": XGBClassifier(
-                n_estimators=220,
-                max_depth=5,
-                learning_rate=0.05,
-                subsample=0.9,
-                colsample_bytree=0.85,
-                random_state=RANDOM_STATE,
-                eval_metric="mlogloss",
-            ),
-            "stacking_ensemble": StackingClassifier(
-                estimators=[
-                    (
-                        "rf",
-                        RandomForestClassifier(
-                            n_estimators=250,
-                            random_state=RANDOM_STATE,
-                            class_weight="balanced",
-                        ),
-                    ),
-                    (
-                        "xgb",
-                        XGBClassifier(
-                            n_estimators=160,
-                            max_depth=4,
-                            learning_rate=0.06,
-                            subsample=0.9,
-                            colsample_bytree=0.85,
-                            random_state=RANDOM_STATE,
-                            eval_metric="mlogloss",
-                        ),
-                    ),
-                ],
-                final_estimator=LogisticRegression(max_iter=1200),
-                stack_method="predict_proba",
-                passthrough=False,
-                cv=stacking_cv,
-            ),
+            "xgboost_classifier": CalibratedClassifierCV(estimator=xgb, method="sigmoid", cv=max(2, min(5, min_class_count))),
+            "stacking_ensemble": CalibratedClassifierCV(estimator=stacking, method="sigmoid", cv=max(2, min(5, min_class_count))),
         }
 
     @classmethod

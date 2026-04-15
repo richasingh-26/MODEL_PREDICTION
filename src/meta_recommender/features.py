@@ -193,7 +193,14 @@ def extract_meta_features(X: pd.DataFrame, y: pd.Series) -> dict[str, float]:
             "feature_importance_var": float(feature_importance_var),
             "class_imbalance_ratio": float(class_imbalance_ratio),
         }
-        return {k: features.get(k, 0.0) for k in META_FEATURE_ORDER}
+        # Ensure numerical stability
+        clean_features = {}
+        for k in META_FEATURE_ORDER:
+            val = float(features.get(k, 0.0))
+            if np.isnan(val) or np.isinf(val):
+                val = 0.0
+            clean_features[k] = val
+        return clean_features
     except Exception as exc:  # noqa: BLE001
         log_exception(logger, "feature extraction", "input_dataset", exc)
         raise

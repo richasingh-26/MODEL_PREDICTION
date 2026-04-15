@@ -28,6 +28,7 @@ from .config import (
     DEFAULT_TOP_K,
     META_DATASET_PATH,
 )
+from .evaluator import benchmark_against_automl, evaluate_models
 from .features import clean_X, detect_task_type, extract_meta_features
 from .logging_utils import log_exception, setup_logging
 from .predictor import MetaModelPredictor
@@ -73,8 +74,6 @@ def process_dataset_bundle(bundle: "DatasetBundle", debug: bool = False) -> Meta
     """Process one OpenML dataset into a meta-learning training record."""
     dataset_start = perf_counter()
     try:
-        from .evaluator import evaluate_models
-
         logger.info("Dataset %s (%s) | start", bundle.name, bundle.dataset_id)
 
         logger.info("Dataset %s | cleaning features", bundle.name)
@@ -280,8 +279,6 @@ def recommend_for_dataframe(
     automl_benchmark = None
     if benchmark_automl and target_column is not None:
         try:
-            from .evaluator import benchmark_against_automl
-
             automl_benchmark = benchmark_against_automl(
                 working_df,
                 y,
