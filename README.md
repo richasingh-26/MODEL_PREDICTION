@@ -4,7 +4,7 @@ Production-ready meta-learning system that learns from OpenML datasets, ranks ca
 
 ## What It Does
 
-- Builds a meta-dataset from many tabular datasets.
+- Builds a meta-dataset from multiple tabular datasets to improve model recommendation accuracy.
 - Extracts advanced meta-features including kurtosis, entropy, PCA variance, sparsity, and outlier percentage.
 - Evaluates candidate base learners with caching, timing, and timeout protection.
 - Trains a probabilistic meta-model that returns the top 3 recommended models with confidence scores.
